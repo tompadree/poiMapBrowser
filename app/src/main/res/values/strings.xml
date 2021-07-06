@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">POIBrowser</string>
+
+    <!-- General-->
+    <string name="no_internet_message">No internet connection. To fetch data, please, connect to the internet.</string>
+    <string name="ok">Ok</string>
+    <string name="close">Close</string>
+    <string name="error_default">Something went wrong</string>
+    <string name="error_default_db">Something went wrong with database</string>
+    <string name="no_internet_connection_title">No internet connection</string>
+    <string name="no_internet_connection_text">Something is wrong with your internet connection</string>
+    <string name="no_internet_connection_text_2">Something is wrong with your internet connection. Please check it.</string>
+    <string name="offline">You\'re offline.</string>
+    <string name="offline_internet_connection">You need an internet connection to view this page.</string>
+
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+        ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+        aliquip ex ea commodo consequat.
+    </string>
+    <string name="lorem_ipsum_short">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+        incididunt ut labore et dolore magna aliqua.</string>
+
+
+    <!-- Maps-->
+    <string name="share_gmaps">Open location in GMaps</string>
+    <string name="share_4square">Open location in FourSquare</string>
+
+</resources>
