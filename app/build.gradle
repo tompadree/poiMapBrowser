@@ -25,6 +25,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            Properties props = new Properties()
+            File propsFile = new File('./pb.properties')
+            props.load(new FileInputStream(propsFile))
+
+            resValue "string", "GOOGLE_MAPS_KEY", props["GOOGLE_MAPS_KEY"]
+        }
     }
     dataBinding {
         enabled = true
