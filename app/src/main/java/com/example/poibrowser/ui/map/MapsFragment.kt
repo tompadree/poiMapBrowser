@@ -42,7 +42,7 @@ class MapsFragment : BindingFragment<FragmentMapsBinding>(), GoogleMap.OnPoiClic
     }
 
     override fun onPoiClick(p0: PointOfInterest) {
-        Log.e("TEST", googleMap.getCameraPosition().target.latitude.toString())
+        Log.e("TEST", p0.latLng.toString())
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(p0.latLng ))
         bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
         viewModel.poiClicked(p0)
