@@ -4,6 +4,7 @@ import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import com.example.poibrowser.R
+import com.example.poibrowser.data.model.FourSquareModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -12,8 +13,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
 
-@BindingAdapter("app:maps")
-fun mapsBinding(map: FragmentContainerView, value: Int) {
+@BindingAdapter("app:points")
+fun mapsBinding(map: FragmentContainerView, items: List<FourSquareModel>) {
 
     val parentFrag = map.parent as Fragment
     val mapFragment = parentFrag.childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.NavHostFragment
 import com.example.poibrowser.R
-import com.example.poibrowser.utils.delay
+import com.example.poibrowser.utils.helpers.delay
 
 class SplashFragment : Fragment() {
     private val SPLASH_DISPLAY_LENGTH : Long = 2000

@@ -1,4 +1,4 @@
-package com.example.poibrowser.utils
+package com.example.poibrowser.utils.helpers
 
 import android.os.Handler
 import androidx.lifecycle.LifecycleOwner

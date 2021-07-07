@@ -58,7 +58,7 @@ abstract class BaseFragment : Fragment(), CoroutineScope {
     protected open fun showError(throwable: Throwable) {
         when (throwable) {
             is InternetConnectionException -> showError(getString(R.string.no_internet_connection_title), getString(R.string.no_internet_connection_text))
-            is NetworkException -> showError(throwable.getErrors()?.message)
+            is NetworkException -> showError(throwable.getErrors()?.meta?.errorDetail)
             else -> showUnknownError()
         }
     }

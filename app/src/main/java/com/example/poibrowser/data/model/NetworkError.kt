@@ -8,18 +8,7 @@ import com.google.gson.annotations.SerializedName
 
 data class NetworkError(
 
-    @SerializedName("message")
-    val message: String,
-
     @SerializedName("meta")
-    val meta: Meta
+    val meta: FourSquareResponseMetaObject
 
-)
-
-data class Meta(
-
-    @SerializedName("status")
-    val status: String,
-    @SerializedName("msg")
-    val msg: String
 )

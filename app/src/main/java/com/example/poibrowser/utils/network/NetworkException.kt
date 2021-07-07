@@ -24,10 +24,8 @@ class NetworkException(response: Response?) : IOException() {
             val errorBodyJson = response.body()?.string() ?: "{}"
 
             val networkError = Gson().fromJson(errorBodyJson, NetworkError::class.java)
-            if(networkError.message != null)
-                message = networkError.message
             if(networkError.meta != null)
-                message += networkError.meta.msg + "  " + networkError.meta.status
+                message += networkError.meta.errorDetail + "  " + networkError.meta.code
             networkError
         } catch (e: Exception) {
             Gson().fromJson(e.localizedMessage, NetworkError::class.java)
@@ -39,7 +37,7 @@ class NetworkException(response: Response?) : IOException() {
             if (message != "Some error")
                 return message
             val errorBodyJson = response.body()?.string() ?: "{}"
-            Gson().fromJson(errorBodyJson, NetworkError::class.java).message
+            Gson().fromJson(errorBodyJson, NetworkError::class.java).meta.errorDetail
         } catch (e: Exception) {
             e.localizedMessage
         }
