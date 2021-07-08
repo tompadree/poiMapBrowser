@@ -11,7 +11,7 @@ import com.example.poibrowser.data.model.*
 
 @Database(entities = [FourSquareModel::class], version = 1, exportSchema = false)
 @TypeConverters(CategoriesConverter::class, FourSquareModelContactConverter::class,
-    FourSquareModelLocationConverter::class)
+    FourSquareModelLocationConverter::class, FormattedAddressConverter::class)
 abstract class POIBDatabase: RoomDatabase() {
     abstract fun getPOIBDao(): POIBDao
 }

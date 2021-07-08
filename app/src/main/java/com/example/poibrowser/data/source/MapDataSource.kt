@@ -10,11 +10,15 @@ import com.example.poibrowser.data.model.Result
  */
 interface MapDataSource {
 
-    fun observeVenues(latlng: String): LiveData<Result<List<FourSquareModel>>>
+    fun observeVenues(latlng: LatLng): LiveData<Result<List<FourSquareModel>>>
 
     suspend fun saveVenues(venues: List<FourSquareModel>)
 
-    suspend fun searchVenues(latlng: String) : Result<List<FourSquareModel>>
+    suspend fun saveVenue(venue: FourSquareModel)
+
+    suspend fun searchVenues(latlng: LatLng, radius: Double): Result<List<FourSquareModel>>
+
+    suspend fun getVenueDetail(venueId: String): Result<FourSquareModel>
 
     // For test only
     suspend fun deleteVenues()

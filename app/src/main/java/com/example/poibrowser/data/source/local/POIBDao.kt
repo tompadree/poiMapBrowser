@@ -19,8 +19,8 @@ interface POIBDao {
      *
      * @return all venues.
      */
-    @Query("SELECT * FROM venues") // WHERE title LIKE :searchQuery LIMIT :limit OFFSET :offset")
-    fun observeVenues(): LiveData<List<FourSquareModel>>
+    @Query("SELECT * FROM venues WHERE (location_lat > :lat1 AND location_lat < :lat2 AND location_lng > :lng1 AND location_lng < :lng2)")
+    fun observeVenues(lat1: String, lat2: String, lng1: String, lng2: String): LiveData<List<FourSquareModel>>
 
     /**
      * Delete all venues.
@@ -31,7 +31,14 @@ interface POIBDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveVenues(venues: List<FourSquareModel>) // : LongArray
 
-    @Query("SELECT * FROM venues") // WHERE title LIKE :searchQuery LIMIT :limit OFFSET :offset")
-    fun getVenues(): List<FourSquareModel>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveVenue(venues: FourSquareModel)
+
+//    0.00918276656434, 0.0077244266868
+    @Query("SELECT * FROM venues WHERE (location_lat > :lat1 AND location_lat < :lat2 AND location_lng > :lng1 AND location_lng < :lng2)")
+    fun getVenues(lat1: String, lat2: String, lng1: String, lng2: String): List<FourSquareModel>
+
+    @Query("SELECT * FROM venues WHERE id LIKE :venueId")
+    fun getVenue(venueId: String): FourSquareModel
 
 }

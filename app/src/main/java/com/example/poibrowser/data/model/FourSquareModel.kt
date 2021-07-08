@@ -1,6 +1,6 @@
 package com.example.poibrowser.data.model
 
-import android.util.Log
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
@@ -27,7 +27,10 @@ data class FourSquareResponseObject(
     val confident: Boolean,
 
     @SerializedName("venues")
-    val venues: List<FourSquareModel>
+    val venues: List<FourSquareModel>,
+
+    @SerializedName("venue")
+    val venue: FourSquareModel
 )
 
 data class FourSquareResponseMetaObject(
@@ -39,9 +42,6 @@ data class FourSquareResponseMetaObject(
 
     @SerializedName("errorDetail")
     val errorDetail: String
-
-//    @SerializedName("requestId")
-//    val requestId: String
 )
 
 @Entity(tableName = "venues")
@@ -57,7 +57,11 @@ data class FourSquareModel(
     val contact: FourSquareModelContact,
 
     @SerializedName("location")
-    val location: FourSquareModelLocation
+    @Embedded(prefix = "location_")
+    val location: FourSquareModelLocation,
+
+    @SerializedName("canonicalUrl")
+    val canonicalUrl: String?
 
 //    @SerializedName("categories")
 //    val categories: List<FourSquareModelCategoriesObject>
@@ -106,10 +110,8 @@ class CategoriesConverter {
             val listType = object : TypeToken<List<String>>() {}.type
 
             try {
-                Log.e("TESTCRASH", " pass value: " + value.toString())
             return Gson().fromJson(value, listType)
             } catch (e: Exception) {
-                Log.e("TESTCRASH", "value: " + value.toString())
                 e.printStackTrace()
                 return ArrayList()
             }
@@ -118,6 +120,22 @@ class CategoriesConverter {
         @TypeConverter
         @JvmStatic
         fun fromCategoriesToString(list: List<FourSquareModelCategoriesObject>): String = Gson().toJson(list)
+    }
+}
+
+class FormattedAddressConverter {
+
+    companion object {
+        @TypeConverter
+        @JvmStatic
+        fun stringToAddress(value: String): ArrayList<String> {
+            val listType = object : TypeToken<List<String>>() {}.type
+            return Gson().fromJson(value, listType)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun fromAddressToString(list: List<String>): String = Gson().toJson(list)
     }
 }
 

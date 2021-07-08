@@ -80,7 +80,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:text="@string/share_gmaps" />
 
-            <TextView
+            <com.example.poibrowser.utils.helpers.CustomTextView
                 android:id="@+id/bottomSheetShareFourSquare"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

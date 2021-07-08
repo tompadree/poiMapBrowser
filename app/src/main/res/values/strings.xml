@@ -23,6 +23,6 @@
 
     <!-- Maps-->
     <string name="share_gmaps">Open location in GMaps</string>
-    <string name="share_4square">Open location in FourSquare</string>
+    <string name="share_4square">Share FourSquare link</string>
 
 </resources>

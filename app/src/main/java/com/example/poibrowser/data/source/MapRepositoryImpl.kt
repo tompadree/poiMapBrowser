@@ -3,9 +3,9 @@ package com.example.poibrowser.data.source
 import androidx.lifecycle.LiveData
 import com.example.poibrowser.data.model.FourSquareModel
 import com.example.poibrowser.utils.helpers.wrapEspressoIdlingResource
-import com.google.android.gms.maps.model.LatLng
 import java.lang.Exception
 import com.example.poibrowser.data.model.Result
+import com.google.android.gms.maps.model.LatLng
 
 /**
  * @author Tomislav Curis
@@ -14,7 +14,7 @@ class MapRepositoryImpl(
     private val localMapsDataSource: MapDataSource,
     private val remoteMapsDataSource: MapDataSource) : MapRepository {
 
-    override fun observeVenues(latlng: String): LiveData<Result<List<FourSquareModel>>> =
+    override fun observeVenues(latlng: LatLng): LiveData<Result<List<FourSquareModel>>> =
        wrapEspressoIdlingResource {
            localMapsDataSource.observeVenues(latlng)
        }
@@ -24,22 +24,42 @@ class MapRepositoryImpl(
             localMapsDataSource.saveVenues(venues)
         }
 
+    override suspend fun saveVenue(venue: FourSquareModel) {
+        wrapEspressoIdlingResource {
+            localMapsDataSource.saveVenue(venue)
+        }
+    }
+
     override suspend fun searchVenues(
         update: Boolean,
-        latlng: String
+        latlng: LatLng, radius: Double
     ): Result<List<FourSquareModel>> {
         if(update)
             try {
-                updateVenuesFromRemote(latlng)
+                updateVenuesFromRemote(latlng, radius)
             } catch (e: Exception) {
                 return Result.Error(e)
             }
-        return localMapsDataSource.searchVenues(latlng)
+        return localMapsDataSource.searchVenues(latlng, radius)
     }
 
-    private suspend fun updateVenuesFromRemote(latlng: String) {
+    override suspend fun getVenueDetail(venueId: String): Result<FourSquareModel> {
         wrapEspressoIdlingResource {
-            val remoteVenues = remoteMapsDataSource.searchVenues(latlng)
+            var localDetails = localMapsDataSource.getVenueDetail(venueId)
+            if (localDetails is Result.Success && !localDetails.data.canonicalUrl.isNullOrEmpty()) {
+                return localMapsDataSource.getVenueDetail(venueId)
+            } else {
+                localDetails = remoteMapsDataSource.getVenueDetail(venueId)
+                if (localDetails is Result.Success)
+                    localMapsDataSource.saveVenue(localDetails.data)
+                return localDetails
+            }
+        }
+    }
+
+    private suspend fun updateVenuesFromRemote(latlng: LatLng, radius: Double) {
+        wrapEspressoIdlingResource {
+            val remoteVenues = remoteMapsDataSource.searchVenues(latlng, radius)
             if(remoteVenues is Result.Success) {
                 localMapsDataSource.saveVenues(remoteVenues.data)
             } else if (remoteVenues is Result.Error) {

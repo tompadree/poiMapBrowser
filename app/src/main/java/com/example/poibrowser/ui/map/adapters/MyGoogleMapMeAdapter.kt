@@ -1,11 +1,10 @@
-package com.example.poibrowser.ui.map
+package com.example.poibrowser.ui.map.adapters
 
 /**
  * @author Tomislav Curis
  */
 
 import android.content.Context
-import android.util.Log
 import androidx.recyclerview.widget.*
 import androidx.recyclerview.widget.AsyncListDiffer.ListListener
 import com.google.android.gms.maps.GoogleMap
@@ -13,8 +12,7 @@ import nz.co.trademe.mapme.annotations.AnnotationFactory
 import nz.co.trademe.mapme.annotations.MapAnnotation
 import nz.co.trademe.mapme.googlemaps.GoogleMapMeAdapter
 
-
-/**
+    /**
      *
      * Advanced users that wish for more control over adapter behavior, or to provide a specific base
      * class should refer to {@link AsyncListDiffer}, which provides custom mapping from diff events
@@ -23,11 +21,8 @@ import nz.co.trademe.mapme.googlemaps.GoogleMapMeAdapter
      * @param <T> Type of the Lists this Adapter will receive.
      */
 abstract class MyGoogleMapMeAdapter<T>(context: Context, val diffCallback: DiffUtil.ItemCallback<T>) : GoogleMapMeAdapter(context) {
-//    val mDiffer: AsyncListDiffer<T>? = null
 
-
-
-    val mDiffer = AsyncListDiffer(
+    private val mDiffer = AsyncListDiffer(
     AdapterListUpdateCallbackCustom(this),
     AsyncDifferConfig.Builder(diffCallback).build()
     )
@@ -49,6 +44,12 @@ abstract class MyGoogleMapMeAdapter<T>(context: Context, val diffCallback: DiffU
      * @param list The new list to be displayed.
      */
     fun submitList(list: List<T>) {
+        if (map != null) {
+            factory.clear(map!!)
+            annotations.clear()
+        }
+
+        mDiffer.submitList(null)
         mDiffer.submitList(list)
     }
 
@@ -132,6 +133,8 @@ abstract class MyGoogleMapMeAdapter<T>(context: Context, val diffCallback: DiffU
  * ListUpdateCallback that dispatches update events to the given adapter.
  *
  * @see DiffUtil.DiffResult.dispatchUpdatesTo
+ *
+ *  RecyclerView AdapterListUpdateCallback expects RecyclerView
  */
 class AdapterListUpdateCallbackCustom
 /**
@@ -161,11 +164,3 @@ class AdapterListUpdateCallbackCustom
         mAdapter.notifyItemRangeChanged(position, count, payload)
     }
 }
-
-
-
-//class Test : RecyclerView<>() {
-//
-//
-//
-//}

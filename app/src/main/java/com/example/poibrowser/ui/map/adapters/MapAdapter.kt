@@ -1,8 +1,7 @@
-package com.example.poibrowser.ui.map
+package com.example.poibrowser.ui.map.adapters
 
 import android.content.Context
 import android.util.Log
-import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.DiffUtil
@@ -13,8 +12,6 @@ import com.google.android.gms.maps.model.LatLng
 import nz.co.trademe.mapme.annotations.AnnotationFactory
 import nz.co.trademe.mapme.annotations.MapAnnotation
 import nz.co.trademe.mapme.annotations.MarkerAnnotation
-import nz.co.trademe.mapme.annotations.OnMapAnnotationClickListener
-
 
 /**
  * @author Tomislav Curis
@@ -27,6 +24,7 @@ class MapAdapter(context: Context) : MyGoogleMapMeAdapter<FourSquareModel>(conte
         this.factory.setOnMarkerClickListener(map) { marker -> notifyAnnotatedMarkerPositionClicked(marker) }
     }
 
+    // CUstom notifier
     fun notifyAnnotatedMarkerPositionClicked(marker: Any): Boolean {
         val clickListener = annotationPositionClickListener ?: return false
 
@@ -74,6 +72,7 @@ class MapMarkersDiffUtil : DiffUtil.ItemCallback<FourSquareModel>() {
     }
 }
 
+// Custom listener with LatLng
 interface OnMapAnnotationClickPositionListener {
 
     fun onMapAnnotationPositionClick(mapAnnotationObject: MapAnnotation, position: LatLng): Boolean

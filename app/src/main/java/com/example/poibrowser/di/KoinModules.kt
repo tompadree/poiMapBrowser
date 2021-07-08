@@ -62,7 +62,7 @@ val RepoModule = module {
     single { MapRepositoryImpl(get(qualifier = named("local")),
         get(qualifier = named("remote"))) as MapRepository }
 
-    viewModel { MapViewModel(get()) }
+    viewModel { MapViewModel(get(), get()) }
 }
 
 val NetModule = module {
@@ -73,7 +73,6 @@ val NetModule = module {
 
         OkHttpClient.Builder()
             .connectTimeout(40, TimeUnit.SECONDS)
-//            .addInterceptor(NetworkExceptionInterceptor())
             .addInterceptor(ResponseInterceptor(get())).apply {
                 if (BuildConfig.DEBUG) {
                     val loggingInterceptor = HttpLoggingInterceptor()
@@ -91,7 +90,6 @@ val NetModule = module {
             .addConverterFactory(NullOnEmptyConverterFactory())
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
-//            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
             .create(FourSquareAPI::class.java)) as FourSquareAPI
     }
